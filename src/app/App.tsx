@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
-import { SiDotnet, SiTerraform, SiKubernetes, SiMicrosoftazure } from "react-icons/si";
-import { TbBrandCSharp } from "react-icons/tb";
+import { SiDotnet, SiTerraform, SiKubernetes } from "react-icons/si";
+import { TbBrandCSharp, TbBrandAzure } from "react-icons/tb";
 import { FaGithub, FaDatabase, FaCloud, FaPython, FaPhp, FaLinkedin, FaExternalLinkAlt, FaAws, FaDocker, FaLinux } from "react-icons/fa";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -21,7 +21,7 @@ interface Skill {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const SKILLS: Skill[] = [
   { icon: <FaAws color="#FF9900" />, name: "Amazon Web Services (AWS)" },
-  { icon: <SiMicrosoftazure color="#0089D6" />, name: "Microsoft Azure" },
+  { icon: <TbBrandAzure color="#0089D6" />, name: "Microsoft Azure" },
   { icon: <FaDocker color="#2496ED" />, name: "Docker & Containerization" },
   { icon: <FaLinux color="#FCC624" />, name: "Linux & Bash Scripting" },
   { icon: <SiTerraform color="#7B42BC" />, name: "Infrastructure as Code (Terraform)" },
