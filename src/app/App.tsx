@@ -1,15 +1,16 @@
 import { useEffect, useRef } from "react";
-import { SiDotnet, SiJavascript } from "react-icons/si";
+import { SiDotnet, SiTerraform, SiKubernetes, SiMicrosoftazure } from "react-icons/si";
 import { TbBrandCSharp } from "react-icons/tb";
-import { FaJava, FaHtml5, FaGithub, FaDatabase, FaCloud } from "react-icons/fa";
+import { FaGithub, FaDatabase, FaCloud, FaPython, FaPhp, FaLinkedin, FaExternalLinkAlt, FaAws, FaDocker, FaLinux } from "react-icons/fa";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Project {
   iconUrl: string;
   title: string;
-  desc: string;
+  desc: string | React.ReactNode;
   tags: string[];
-  url: string;
+  githubUrl: string;
+  liveUrl?: string;
 }
 
 interface Skill {
@@ -19,44 +20,64 @@ interface Skill {
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const SKILLS: Skill[] = [
-  { icon: <SiDotnet color="#512bd4" />, name: "ASP.NET Core" },
-  { icon: <TbBrandCSharp color="#239120" />, name: "C#" },
-  { icon: <FaJava color="#f89820" />, name: "Java" },
-  { icon: <SiJavascript color="#f7df1e" />, name: "JavaScript" },
-  { icon: <FaHtml5 color="#e34f26" />, name: "HTML / CSS" },
+  { icon: <FaAws color="#FF9900" />, name: "Amazon Web Services (AWS)" },
+  { icon: <SiMicrosoftazure color="#0089D6" />, name: "Microsoft Azure" },
+  { icon: <FaDocker color="#2496ED" />, name: "Docker & Containerization" },
+  { icon: <FaLinux color="#FCC624" />, name: "Linux & Bash Scripting" },
+  { icon: <SiTerraform color="#7B42BC" />, name: "Infrastructure as Code (Terraform)" },
+  { icon: <FaCloud color="#00a4ef" />, name: "CI/CD & DevOps Practices" },
+  { icon: <FaDatabase color="#336791" />, name: "Database Systems (SQL & NoSQL)" },
+  { icon: <FaPython color="#3776AB" />, name: "Python & Automation" },
+  { icon: <TbBrandCSharp color="#239120" />, name: "C# & .NET Core" },
   { icon: <FaGithub color="#ffffff" />, name: "Git & GitHub" },
-  { icon: <FaCloud color="#00a4ef" />, name: "Cloud Computing" },
-  { icon: <FaDatabase color="#336791" />, name: "Database Systems" },
 ];
 
 const PROJECTS: Project[] = [
   {
-    iconUrl: "/projects/smartgpa_logo.png", // <-- TODO: Place your logo in public/projects/ and update this path
+    iconUrl: "/projects/smartgpa_logo.png",
     title: "Smart GPA Calculator",
-    desc: "A smart GPA calculation tool designed for university students to accurately compute semester and cumulative GPA with module-based inputs.",
-    tags: ["Java", "Android"],
-    url: "https://github.com/Thiwanka-work/SmartGpaCal",
+    desc: (
+      <>
+        A comprehensive academic management system available on two platforms:
+        <br /><br />
+        <strong>🌐 Web Application:</strong> A responsive dashboard with visual analytics, semester tracking, and a GPA prediction engine. Live at <a href="https://www.smartgpa.app" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>smartgpa.app</a>. <a href="https://github.com/Thiwanka-work/SmartGpaCal" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>[GitHub]</a>
+        <br /><br />
+        <strong>💻 Desktop Application:</strong> A premium dark-themed WPF app built with C# and .NET 10, featuring dynamic semester tracking and a smart target GPA planner. <a href="https://github.com/Thiwanka-work/GpaCalculatorApp" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>[GitHub]</a>
+      </>
+    ),
+    tags: ["C#", "WPF", ".NET 10", "JavaScript", "Chart.js"],
+    githubUrl: "https://github.com/Thiwanka-work/SmartGpaCal",
+    liveUrl: "https://www.smartgpa.app",
   },
   {
-    iconUrl: "/projects/placeholder.png", // <-- TODO: Place your logo in public/projects/ and update this path
+    iconUrl: "/projects/auction.png",
     title: "Cricket Auction System",
-    desc: "A full-featured cricket player auction management system that handles team budgets, bidding logic, and player allocation for tournaments.",
-    tags: ["C#", "ASP.NET", "SQL"],
-    url: "https://github.com/Thiwanka-work/cricket_auction_system",
+    desc: (
+      <>
+        A dual-screen desktop application built for the Technology Premier League (TPL) cricket tournament at the University of Vavuniya.
+        <br /><br />
+        <strong>🏏 Live Auction Engine:</strong> Features real-time bidding controls, dynamic team assignments, and persistent SQLite storage for budget management.
+        <br /><br />
+        <strong>🖥️ Dual Architecture:</strong> Includes an Admin Control Center for data management and a high-visibility Projector Display for live audience viewing.
+      </>
+    ),
+    tags: ["Python", "PyQt5", "SQLite"],
+    githubUrl: "https://github.com/Thiwanka-work/cricket_auction_system",
   },
   {
-    iconUrl: "/projects/placeholder.png", // <-- TODO: Place your logo in public/projects/ and update this path
-    title: "GPA Calculator App",
-    desc: "A dedicated GPA calculator application providing intuitive grade entry, weighted credit calculation, and academic performance tracking.",
-    tags: ["JavaScript", "HTML/CSS"],
-    url: "https://github.com/Thiwanka-work/GpaCalculatorApp",
-  },
-  {
-    iconUrl: "/projects/Unihouse.png", // <-- TODO: Place your logo in public/projects/ and update this path
-    title: "Uni House System",
-    desc: "A university housing management system for handling room allocation, student registrations, and accommodation requests in a structured platform.",
-    tags: ["C#", "ASP.NET", "Database"],
-    url: "https://github.com/Thiwanka-work/Uni-House",
+    iconUrl: "/projects/Unihouse.png",
+    title: "Boarding Finder",
+    desc: (
+      <>
+        A full-stack web platform designed to simplify finding student accommodation, connecting students, owners, and service providers.
+        <br /><br />
+        <strong>🔐 Multi-Role Ecosystem:</strong> Secure role-based access for Students, Owners, Service Providers, and Admins with a centralized management dashboard.
+        <br /><br />
+        <strong>🔍 Smart Search:</strong> Advanced filtering to find boarding places based on university proximity, price range, and accommodation type.
+      </>
+    ),
+    tags: ["React.js", "Tailwind", "PHP", "MySQL"],
+    githubUrl: "https://github.com/Thiwanka-work/Uni-House",
   },
 ];
 
@@ -229,13 +250,15 @@ export default function App() {
             Hi, I&apos;m <span>Thiwanka</span>
           </h1>
           <p className="tw-hero-title tw-reveal">
-            Software Engineering Student &amp; Developer
+            Cloud Engineer &amp; Backend Developer
           </p>
+
+
           <p className="tw-hero-desc tw-reveal">
-            Passionate about building <strong>cloud-native applications</strong>,
-            scalable <strong>web systems</strong>, and real-world software solutions.
-            Currently studying Software Engineering with a focus on backend
-            architecture and modern cloud infrastructure.
+            Passionate about architecting <strong>cloud-native solutions</strong>,
+            building scalable <strong>infrastructure</strong>, and optimizing deployments.
+            Currently focused on <strong>AWS, Azure, and DevOps practices</strong>, 
+            designing resilient backend systems and automating workflows.
           </p>
           <div className="tw-hero-actions tw-reveal">
             <a href="#projects" className="tw-btn tw-btn-primary">
@@ -268,34 +291,33 @@ export default function App() {
             Turning ideas into<br />working software
           </h2>
           <p className="tw-section-sub tw-reveal">
-            A focused software engineering student with hands-on experience building real systems.
+            A dedicated cloud engineer and software engineering student with hands-on experience building scalable systems.
           </p>
 
           <div className="tw-about-grid">
             <div className="tw-about-text tw-reveal">
               <p>
-                I&apos;m <strong>Thiwanka</strong>, a software engineering student based in{" "}
-                <strong>Sri Lanka</strong> with a genuine passion for creating clean, efficient,
-                and impactful software. My journey spans backend development with{" "}
-                <strong>ASP.NET Core and C#</strong>, front-end work with JavaScript, and
-                cloud fundamentals.
+                I&apos;m <strong>Thiwanka</strong>, a Cloud Engineering enthusiast based in{" "}
+                <strong>Sri Lanka</strong> with a genuine passion for creating robust, secure,
+                and highly available infrastructure. My core expertise lies in <strong>Cloud Platforms</strong> (AWS, Azure) and
+                <strong> DevOps practices</strong> (CI/CD, Containerization, Infrastructure as Code).
               </p>
               <p>
-                I believe great software is built on solid architecture — which is why I focus on{" "}
-                <strong>database design</strong>, system scalability, and clean code principles.
-                Every project is an opportunity to solve a real problem with thoughtful engineering.
+                I enjoy bridging the gap between development and operations. Whether it&apos;s deploying microservices, 
+                managing databases, or writing automation scripts in <strong>Python</strong> or <strong>C#</strong>, I believe great systems 
+                are built on solid, scalable architecture.
               </p>
               <p>
-                When I&apos;m not coding, I&apos;m exploring new cloud platforms, contributing to
+                When I&apos;m not architecting cloud solutions, I&apos;m exploring new networking concepts, contributing to
                 open-source ideas, or prototyping the next tool that simplifies a complex workflow.
               </p>
             </div>
 
             <div className="tw-stats-grid">
               {[
-                { num: "4+", label: "GitHub Projects" },
-                { num: "3+", label: "Languages Used" },
-                { num: "ASP.NET", label: "Primary Framework" },
+                { num: "AWS", label: "Primary Cloud" },
+                { num: "DevOps", label: "Core Focus" },
+                { num: "4+", label: "Projects Deployed" },
                 { num: "🇱🇰", label: "Based in Sri Lanka" },
               ].map((s, i) => (
                 <div key={i} className={`tw-stat tw-reveal tw-s${i + 1}`}>
@@ -339,12 +361,19 @@ export default function App() {
             {PROJECTS.map((p, i) => (
               <div key={p.title} className={`tw-project tw-reveal tw-s${i + 1}`}>
                 <div className="tw-project-top">
-                  <div className="tw-project-icon">
+                  <a href={p.liveUrl || p.githubUrl} target="_blank" rel="noopener noreferrer" className="tw-project-icon" style={{ display: 'block', cursor: 'pointer' }} aria-label="Visit Project">
                     <img src={p.iconUrl} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px', display: 'block' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
-                  </div>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer" className="tw-gh-link" aria-label="View on GitHub">
-                    <GithubIcon />
                   </a>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    {p.liveUrl && (
+                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="tw-gh-link" aria-label="Visit Live Site">
+                        <FaExternalLinkAlt size={16} />
+                      </a>
+                    )}
+                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="tw-gh-link" aria-label="View on GitHub">
+                      <GithubIcon />
+                    </a>
+                  </div>
                 </div>
                 <h3 className="tw-project-title">{p.title}</h3>
                 <p className="tw-project-desc">{p.desc}</p>
@@ -374,9 +403,8 @@ export default function App() {
               </p>
               <div className="tw-contact-items">
                 {[
-                  { icon: "💬", label: "WhatsApp", value: "+94 76 709 9496", href: "https://wa.me/94767099496" },
                   { icon: "✉️", label: "Email", value: "thiwankasandaruwan110@gmail.com", href: "mailto:thiwankasandaruwan110@gmail.com" },
-                  { icon: "📍", label: "Location", value: "Sri Lanka 🇱🇰", href: undefined },
+                  { icon: <FaLinkedin size={18} color="#0077b5" />, label: "LinkedIn", value: "Thiwanka Sandaruwan", href: "https://www.linkedin.com/in/thiwanka-sandaruwan-9b0714366" },
                   { icon: null, label: "GitHub", value: "Thiwanka-work", href: "https://github.com/Thiwanka-work" },
                 ].map((item, i) => {
                   const cls = `tw-contact-item tw-reveal tw-s${i + 1}`;
@@ -402,21 +430,58 @@ export default function App() {
               </div>
             </div>
 
+
             <div className="tw-cta-col">
               <div className="tw-cta tw-reveal">
-                <h3>Ready to build something?</h3>
-                <p>
-                  I&apos;m currently open to software engineering roles, internships, and freelance
-                  projects. If you have a problem that needs an elegant solution, let&apos;s talk.
-                </p>
-                <a href="https://wa.me/94767099496" target="_blank" rel="noopener noreferrer" className="tw-btn tw-btn-primary">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
-                  </svg>
-                  Message on WhatsApp
-                </a>
+
+
+                <div className="space-y-4">
+                  <h3 className="text-xl font-semibold">
+                    Ready to build something?
+                  </h3>
+
+                  <p className="text-gray-600 leading-relaxed">
+                    I&apos;m currently focused on <b>Cloud Engineering</b> and expanding my skills in AWS,
+                    DevOps, and scalable system design. I&apos;m open to software engineering roles,
+                    internships, and freelance projects. If you need a reliable and efficient solution, let&apos;s talk.
+                  </p>
+
+                  <div className="text-sm text-gray-500">
+                    Current Focus: AWS • Linux • Networking • CI/CD
+                  </div>
+
+                  <a
+                    href="mailto:thiwankasandaruwan110@gmail.com"
+                    aria-label="Send an Email"
+                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg 
+               bg-blue-600 text-white font-medium 
+               hover:bg-blue-700 transition-all duration-300"
+                  >
+                    <svg
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                      <polyline points="22,6 12,13 2,6" />
+                    </svg>
+
+                    Send an Email
+                  </a>
+                </div>
+
+
+
               </div>
             </div>
+
+
           </div>
         </section>
 
@@ -827,6 +892,7 @@ const CSS = `
     background: radial-gradient(circle at top right, rgba(77,163,255,0.06), transparent 60%);
     opacity: 0;
     transition: opacity 0.3s;
+    pointer-events: none;
   }
   .tw-project:hover::before { opacity: 1; }
   .tw-project:hover {
@@ -841,6 +907,8 @@ const CSS = `
     align-items: flex-start;
     justify-content: space-between;
     margin-bottom: 1rem;
+    position: relative;
+    z-index: 2;
   }
   .tw-project-icon {
     width: 42px; height: 42px;
@@ -869,6 +937,8 @@ const CSS = `
     line-height: 1.65;
     flex: 1;
     margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 2;
   }
   .tw-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .tw-tag {
