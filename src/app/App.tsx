@@ -1,7 +1,13 @@
 import { useEffect, useRef } from "react";
-import { SiDotnet, SiTerraform, SiKubernetes } from "react-icons/si";
+import { SiDotnet, SiJavascript } from "react-icons/si";
 import { TbBrandCSharp, TbBrandAzure } from "react-icons/tb";
 import { FaGithub, FaDatabase, FaCloud, FaPython, FaPhp, FaLinkedin, FaExternalLinkAlt, FaAws, FaDocker, FaLinux } from "react-icons/fa";
+
+// ─── Configuration ─────────────────────────────────────────────────────────────
+const PORTFOLIO_CONFIG = {
+  // Update this to your Google Drive link or the new file name when you change your CV
+  cvDownloadUrl: "https://drive.google.com/file/d/109MhlJd9lx9Fy7qSYkwkQ8_ov3UsIoj9/view?usp=drive_link",
+};
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface Project {
@@ -19,46 +25,86 @@ interface Skill {
 }
 
 // ─── Data ─────────────────────────────────────────────────────────────────────
-const SKILLS: Skill[] = [
-  { icon: <FaAws color="#FF9900" />, name: "Amazon Web Services (AWS)" },
-  { icon: <TbBrandAzure color="#0089D6" />, name: "Microsoft Azure" },
-  { icon: <FaDocker color="#2496ED" />, name: "Docker & Containerization" },
-  { icon: <FaLinux color="#FCC624" />, name: "Linux & Bash Scripting" },
-  { icon: <SiTerraform color="#7B42BC" />, name: "Infrastructure as Code (Terraform)" },
-  { icon: <FaCloud color="#00a4ef" />, name: "CI/CD & DevOps Practices" },
-  { icon: <FaDatabase color="#336791" />, name: "Database Systems (SQL & NoSQL)" },
-  { icon: <FaPython color="#3776AB" />, name: "Python & Automation" },
-  { icon: <TbBrandCSharp color="#239120" />, name: "C# & .NET Core" },
-  { icon: <FaGithub color="#ffffff" />, name: "Git & GitHub" },
+const EXPERTISE = [
+  {
+    title: "Cloud Infrastructure",
+    desc: "Architecting and deploying scalable, secure, and highly available cloud environments on AWS and Azure.",
+    icon: <FaAws size={32} color="#FF9900" />
+  },
+  {
+    title: "DevOps & CI/CD",
+    desc: "Containerizing applications with Docker, managing Linux environments, and deploying robust cloud-native systems.",
+    icon: <FaDocker size={32} color="#2496ED" />
+  },
+  {
+    title: "Backend Systems",
+    desc: "Building resilient microservices and robust ASP.NET Core APIs using C# and modern database technologies.",
+    icon: <FaDatabase size={32} color="#336791" />
+  }
 ];
 
-const PROJECTS: Project[] = [
+const SKILLS: Skill[] = [
+  { icon: <FaAws color="#FF9900" />, name: "AWS (EC2, IAM, S3, Lambda)" },
+  { icon: <TbBrandAzure color="#0089D6" />, name: "Azure (Static Web Apps, SQL DB)" },
+  { icon: <SiDotnet color="#512BD4" />, name: "ASP.NET Core Web API" },
+  { icon: <TbBrandCSharp color="#239120" />, name: "C# & Entity Framework Core" },
+  { icon: <FaCloud color="#00a4ef" />, name: "REST API & JWT Auth" },
+  { icon: <FaDocker color="#2496ED" />, name: "Docker" },
+  { icon: <FaLinux color="#FCC624" />, name: "Linux (Ubuntu)" },
+  { icon: <FaGithub color="#ffffff" />, name: "Git & GitHub" },
+  { icon: <FaDatabase color="#336791" />, name: "SQL Server, MySQL, SQLite" },
+  { icon: <FaPython color="#3776AB" />, name: "Python" },
+  { icon: <SiJavascript color="#F7DF1E" />, name: "JavaScript" },
+  { icon: <FaPhp color="#777BB4" />, name: "PHP" },
+];
+
+const FEATURED_PROJECTS: Project[] = [
+  {
+    iconUrl: "/projects/Techmart.png",
+    title: "TechMart E-Commerce Platform",
+    desc: (
+      <>
+        A production-ready full-stack e-commerce platform deployed on AWS.
+        <br /><br />
+        <strong>☁️ Cloud Architecture:</strong> Hosted on AWS using S3, CloudFront, EC2, and RDS PostgreSQL for scalable and highly available infrastructure.
+        <br /><br />
+        <strong>⚙️ Backend & Security:</strong> Robust ASP.NET Core Web API backend with managed database infrastructure and JWT-based authentication.
+        <br /><br />
+        <strong>🤖 AI Integration:</strong> Features AI-powered shopping assistance integrating the Google Gemini API.
+      </>
+    ),
+    tags: ["AWS", "ASP.NET Core", "React", "PostgreSQL", "Gemini API"],
+    githubUrl: "https://github.com/Thiwanka-work",
+  },
   {
     iconUrl: "/projects/smartgpa_logo.png",
     title: "Smart GPA Calculator",
     desc: (
       <>
-        A comprehensive academic management system available on two platforms:
+        A multi-platform academic management solution demonstrating experience across Web, Desktop, Mobile, Cloud Hosting, and Backend technologies.
         <br /><br />
-        <strong>🌐 Web Application:</strong> A responsive dashboard with visual analytics, semester tracking, and a GPA prediction engine. Live at <a href="https://www.smartgpa.app" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>smartgpa.app</a>. <a href="https://github.com/Thiwanka-work/SmartGpaCal" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>[GitHub]</a>
+        <strong>🌐 Static Web App:</strong> Responsive GPA & CGPA calculator, semester tracking, and prediction, hosted on Azure Static Web Apps. Live at <a href="https://www.smartgpa.app" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>smartgpa.app</a>.
         <br /><br />
-        <strong>💻 Desktop Application:</strong> A premium dark-themed WPF app built with C# and .NET 10, featuring dynamic semester tracking and a smart target GPA planner. <a href="https://github.com/Thiwanka-work/GpaCalculatorApp" target="_blank" rel="noreferrer" style={{ color: '#4da3ff', textDecoration: 'none' }}>[GitHub]</a>
+        <strong>💻 Desktop App:</strong> Built with C# WPF and .NET, featuring a premium desktop interface for semester management and GPA planning.
+        <br /><br />
+        <strong>📱 Mobile App:</strong> Built with React Native, utilizing Firebase Authentication and Storage for a seamless cross-platform Android experience.
       </>
     ),
-    tags: ["C#", "WPF", ".NET 10", "JavaScript", "Chart.js"],
+    tags: ["ASP.NET Core", "C#", "Azure", "React Native", "WPF"],
     githubUrl: "https://github.com/Thiwanka-work/SmartGpaCal",
     liveUrl: "https://www.smartgpa.app",
-  },
+  }
+];
+
+const OTHER_PROJECTS: Project[] = [
   {
     iconUrl: "/projects/auction.png",
     title: "Cricket Auction System",
     desc: (
       <>
-        A dual-screen desktop application built for the Technology Premier League (TPL) cricket tournament at the University of Vavuniya.
+        A dual-screen desktop application built for the Technology Premier League (TPL) cricket tournament.
         <br /><br />
         <strong>🏏 Live Auction Engine:</strong> Features real-time bidding controls, dynamic team assignments, and persistent SQLite storage for budget management.
-        <br /><br />
-        <strong>🖥️ Dual Architecture:</strong> Includes an Admin Control Center for data management and a high-visibility Projector Display for live audience viewing.
       </>
     ),
     tags: ["Python", "PyQt5", "SQLite"],
@@ -72,8 +118,6 @@ const PROJECTS: Project[] = [
         A full-stack web platform designed to simplify finding student accommodation, connecting students, owners, and service providers.
         <br /><br />
         <strong>🔐 Multi-Role Ecosystem:</strong> Secure role-based access for Students, Owners, Service Providers, and Admins with a centralized management dashboard.
-        <br /><br />
-        <strong>🔍 Smart Search:</strong> Advanced filtering to find boarding places based on university proximity, price range, and accommodation type.
       </>
     ),
     tags: ["React.js", "Tailwind", "PHP", "MySQL"],
@@ -116,62 +160,113 @@ export default function App() {
       renderer.setSize(window.innerWidth, window.innerHeight);
 
       const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 80;
+      scene.fog = new THREE.FogExp2(0x080c14, 0.006);
 
-      const COUNT = 900;
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+      camera.position.set(0, 40, 140);
+
+      // Create a flowing wave of particles
+      const width = 100;
+      const depth = 100;
+      const spacing = 4.5;
+      const COUNT = width * depth;
+
       const geo = new THREE.BufferGeometry();
       const pos = new Float32Array(COUNT * 3);
-      const sizes = new Float32Array(COUNT);
+      const colors = new Float32Array(COUNT * 3);
 
-      for (let i = 0; i < COUNT; i++) {
-        pos[i * 3] = (Math.random() - 0.5) * 220;
-        pos[i * 3 + 1] = (Math.random() - 0.5) * 160;
-        pos[i * 3 + 2] = (Math.random() - 0.5) * 120;
-        sizes[i] = Math.random() * 0.9 + 0.2;
+      const color1 = new THREE.Color(0x4da3ff); // Blue
+      const color2 = new THREE.Color(0x9d4edd); // Purple accent
+
+      let i = 0;
+      for (let z = 0; z < depth; z++) {
+        for (let x = 0; x < width; x++) {
+          pos[i * 3] = (x - width / 2) * spacing;
+          pos[i * 3 + 1] = 0;
+          pos[i * 3 + 2] = (z - depth / 2) * spacing;
+
+          // Gradient based on X position
+          const mix = x / width;
+          const mixedColor = color1.clone().lerp(color2, mix);
+          colors[i * 3] = mixedColor.r;
+          colors[i * 3 + 1] = mixedColor.g;
+          colors[i * 3 + 2] = mixedColor.b;
+
+          i++;
+        }
       }
 
       geo.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-      geo.setAttribute("size", new THREE.BufferAttribute(sizes, 1));
+      geo.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 
-      const mat = new THREE.PointsMaterial({ color: 0x4da3ff, size: 0.45, transparent: true, opacity: 0.35, sizeAttenuation: true });
+      // Soft glowing particle texture
+      const canvasTex = document.createElement('canvas');
+      canvasTex.width = 32;
+      canvasTex.height = 32;
+      const ctx = canvasTex.getContext('2d');
+      if (ctx) {
+        const gradient = ctx.createRadialGradient(16, 16, 0, 16, 16, 16);
+        gradient.addColorStop(0, 'rgba(255,255,255,1)');
+        gradient.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 32, 32);
+      }
+      const texture = new THREE.CanvasTexture(canvasTex);
+
+      const mat = new THREE.PointsMaterial({
+        size: 1.2,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.6,
+        map: texture,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      });
       const points = new THREE.Points(geo, mat);
       scene.add(points);
 
-      // Faint lines between nearby particles
-      const lineVerts: number[] = [];
-      const SUBSET = 200;
-      const MAX_DIST = 28;
-      for (let i = 0; i < SUBSET; i++) {
-        for (let j = i + 1; j < SUBSET; j++) {
-          const dx = pos[i * 3] - pos[j * 3];
-          const dy = pos[i * 3 + 1] - pos[j * 3 + 1];
-          const dz = pos[i * 3 + 2] - pos[j * 3 + 2];
-          if (Math.sqrt(dx * dx + dy * dy + dz * dz) < MAX_DIST) {
-            lineVerts.push(pos[i * 3], pos[i * 3 + 1], pos[i * 3 + 2], pos[j * 3], pos[j * 3 + 1], pos[j * 3 + 2]);
-          }
-        }
-      }
-      const lineGeo = new THREE.BufferGeometry();
-      lineGeo.setAttribute("position", new THREE.BufferAttribute(new Float32Array(lineVerts), 3));
-      const lineMat = new THREE.LineBasicMaterial({ color: 0x4da3ff, transparent: true, opacity: 0.06 });
-      scene.add(new THREE.LineSegments(lineGeo, lineMat));
-
       let mouseX = 0, mouseY = 0, scrollY = 0;
       const onMouse = (e: MouseEvent) => {
-        mouseX = (e.clientX / window.innerWidth - 0.5) * 0.4;
-        mouseY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+        mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
       };
       const onScroll = () => { scrollY = window.scrollY; };
       document.addEventListener("mousemove", onMouse);
       window.addEventListener("scroll", onScroll);
 
+      const clock = new THREE.Clock();
+
       function animate() {
         animFrameId = requestAnimationFrame(animate);
-        const t = Date.now() * 0.00025;
-        points.rotation.y = t * 0.12 + mouseX * 0.5;
-        points.rotation.x = t * 0.06 + mouseY * 0.3;
-        camera.position.y = -scrollY * 0.018;
+        const elapsedTime = clock.getElapsedTime();
+
+        const positions = points.geometry.attributes.position.array;
+
+        let index = 0;
+        for (let z = 0; z < depth; z++) {
+          for (let x = 0; x < width; x++) {
+            const px = positions[index * 3];
+            const pz = positions[index * 3 + 2];
+
+            // Flowing fluid waves
+            positions[index * 3 + 1] =
+              Math.sin(px * 0.05 + elapsedTime * 1.2) * 6 +
+              Math.cos(pz * 0.05 + elapsedTime * 0.8) * 6 +
+              Math.sin(Math.sqrt(px * px + pz * pz) * 0.05 - elapsedTime) * 8;
+
+            index++;
+          }
+        }
+        points.geometry.attributes.position.needsUpdate = true;
+
+        // Gentle rotation based on mouse
+        points.rotation.y = mouseX * 0.05;
+        points.rotation.x = mouseY * 0.02;
+
+        // Camera parallax on scroll
+        camera.position.y = 35 - scrollY * 0.03;
+        camera.lookAt(0, -10 - scrollY * 0.02, 0);
+
         renderer.render(scene, camera);
       }
       animate();
@@ -226,7 +321,7 @@ export default function App() {
       <nav id="tw-nav">
         <a href="#hero" className="tw-logo">TW.</a>
         <ul ref={navLinksRef} id="tw-navlinks">
-          {["about", "skills", "projects", "contact"].map((s) => (
+          {["about", "expertise", "skills", "projects", "contact"].map((s) => (
             <li key={s}>
               <a href={`#${s}`} onClick={closeNav}>
                 {s.charAt(0).toUpperCase() + s.slice(1)}
@@ -255,10 +350,10 @@ export default function App() {
 
 
           <p className="tw-hero-desc tw-reveal">
-            Passionate about architecting <strong>cloud-native solutions</strong>,
-            building scalable <strong>infrastructure</strong>, and optimizing deployments.
-            Currently focused on <strong>AWS, Azure, and DevOps practices</strong>, 
-            designing resilient backend systems and automating workflows.
+            Passionate about building <strong>cloud-native applications</strong> and
+            architecting scalable <strong>REST APIs</strong>.
+            Specializing in <strong>ASP.NET Core backend development</strong>,
+            <strong>AWS cloud deployment</strong>, and managing environments with <strong>Docker and Linux</strong>.
           </p>
           <div className="tw-hero-actions tw-reveal">
             <a href="#projects" className="tw-btn tw-btn-primary">
@@ -267,7 +362,11 @@ export default function App() {
               </svg>
               View Projects
             </a>
-            <a href="#" className="tw-btn tw-btn-secondary" download>
+            <a 
+              href={PORTFOLIO_CONFIG.cvDownloadUrl} 
+              className="tw-btn tw-btn-secondary" 
+              {...(PORTFOLIO_CONFIG.cvDownloadUrl.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : { download: "Thiwanka_CV.pdf" })}
+            >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
                 <polyline points="7 10 12 15 17 10" />
@@ -297,28 +396,28 @@ export default function App() {
           <div className="tw-about-grid">
             <div className="tw-about-text tw-reveal">
               <p>
-                I&apos;m <strong>Thiwanka</strong>, a Cloud Engineering enthusiast based in{" "}
-                <strong>Sri Lanka</strong> with a genuine passion for creating robust, secure,
-                and highly available infrastructure. My core expertise lies in <strong>Cloud Platforms</strong> (AWS, Azure) and
-                <strong> DevOps practices</strong> (CI/CD, Containerization, Infrastructure as Code).
+                Hi, I&apos;m <strong>Thiwanka</strong>, a BICT undergraduate based in <strong>Sri Lanka</strong>.
+                I have a strong passion for <strong>Cloud Engineering</strong> and <strong>Backend Development</strong>,
+                and I love turning complex requirements into resilient, highly available digital solutions.
               </p>
               <p>
-                I enjoy bridging the gap between development and operations. Whether it&apos;s deploying microservices, 
-                managing databases, or writing automation scripts in <strong>Python</strong> or <strong>C#</strong>, I believe great systems 
-                are built on solid, scalable architecture.
+                My core focus is on building scalable backend systems and managing modern infrastructure.
+                I spend most of my time working with <strong>AWS</strong>, containerizing applications with <strong>Docker</strong>,
+                and configuring <strong>Linux</strong> environments to ensure seamless, secure deployments.
               </p>
               <p>
-                When I&apos;m not architecting cloud solutions, I&apos;m exploring new networking concepts, contributing to
-                open-source ideas, or prototyping the next tool that simplifies a complex workflow.
+                I believe that great software is built on a solid architectural foundation.
+                When I&apos;m not coding or configuring cloud resources, I&apos;m constantly exploring new
+                technologies and refining my skills to stay at the forefront of cloud-native development.
               </p>
             </div>
 
             <div className="tw-stats-grid">
               {[
-                { num: "AWS", label: "Primary Cloud" },
-                { num: "DevOps", label: "Core Focus" },
-                { num: "4+", label: "Projects Deployed" },
-                { num: "🇱🇰", label: "Based in Sri Lanka" },
+                { num: "AWS", label: "Cloud Platform" },
+                { num: ".NET", label: "ASP.NET Core" },
+                { num: "Docker", label: "Containerization" },
+                { num: "Linux", label: "Server OS" },
               ].map((s, i) => (
                 <div key={i} className={`tw-stat tw-reveal tw-s${i + 1}`}>
                   <div className="tw-stat-num">{s.num}</div>
@@ -331,9 +430,29 @@ export default function App() {
 
         <div className="tw-divider" />
 
+        {/* ── EXPERTISE ── */}
+        <section id="expertise">
+          <span className="tw-label tw-reveal">02 — Expertise</span>
+          <h2 className="tw-section-title tw-reveal">Cloud & DevOps Focus</h2>
+          <p className="tw-section-sub tw-reveal">
+            Specialized in building and maintaining cloud-native systems.
+          </p>
+          <div className="tw-expertise-grid">
+            {EXPERTISE.map((exp, i) => (
+              <div key={exp.title} className={`tw-expertise-card tw-reveal tw-s${i + 1}`}>
+                <div className="tw-expertise-icon">{exp.icon}</div>
+                <h3 className="tw-expertise-title">{exp.title}</h3>
+                <p className="tw-expertise-desc">{exp.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <div className="tw-divider" />
+
         {/* ── SKILLS ── */}
         <section id="skills">
-          <span className="tw-label tw-reveal">02 — Skills</span>
+          <span className="tw-label tw-reveal">03 — Skills</span>
           <h2 className="tw-section-title tw-reveal">Technologies &amp; Tools</h2>
           <p className="tw-section-sub tw-reveal">
             The stack I work with to build modern, scalable software systems.
@@ -352,13 +471,41 @@ export default function App() {
 
         {/* ── PROJECTS ── */}
         <section id="projects">
-          <span className="tw-label tw-reveal">03 — Projects</span>
-          <h2 className="tw-section-title tw-reveal">Selected Work</h2>
+          <span className="tw-label tw-reveal">04 — Projects</span>
+          <h2 className="tw-section-title tw-reveal">Featured Work</h2>
           <p className="tw-section-sub tw-reveal">
-            Real-world projects built to solve practical problems.
+            Comprehensive solutions highlighting cloud architecture and backend development.
           </p>
           <div className="tw-projects-grid">
-            {PROJECTS.map((p, i) => (
+            {FEATURED_PROJECTS.map((p, i) => (
+              <div key={p.title} className={`tw-project tw-reveal tw-s${i + 1}`}>
+                <div className="tw-project-top">
+                  <a href={p.liveUrl || p.githubUrl} target="_blank" rel="noopener noreferrer" className="tw-project-icon" style={{ display: 'block', cursor: 'pointer' }} aria-label="Visit Project">
+                    <img src={p.iconUrl} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '10px', display: 'block' }} onError={(e) => { e.currentTarget.style.display = 'none'; }} />
+                  </a>
+                  <div style={{ display: 'flex', gap: '8px' }}>
+                    {p.liveUrl && (
+                      <a href={p.liveUrl} target="_blank" rel="noopener noreferrer" className="tw-gh-link" aria-label="Visit Live Site">
+                        <FaExternalLinkAlt size={16} />
+                      </a>
+                    )}
+                    <a href={p.githubUrl} target="_blank" rel="noopener noreferrer" className="tw-gh-link" aria-label="View on GitHub">
+                      <GithubIcon />
+                    </a>
+                  </div>
+                </div>
+                <h3 className="tw-project-title">{p.title}</h3>
+                <p className="tw-project-desc">{p.desc}</p>
+                <div className="tw-tags">
+                  {p.tags.map((t) => <span key={t} className="tw-tag">{t}</span>)}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="tw-section-title tw-reveal" style={{ marginTop: '4rem' }}>Other Projects</h2>
+          <div className="tw-projects-grid">
+            {OTHER_PROJECTS.map((p, i) => (
               <div key={p.title} className={`tw-project tw-reveal tw-s${i + 1}`}>
                 <div className="tw-project-top">
                   <a href={p.liveUrl || p.githubUrl} target="_blank" rel="noopener noreferrer" className="tw-project-icon" style={{ display: 'block', cursor: 'pointer' }} aria-label="Visit Project">
@@ -389,7 +536,7 @@ export default function App() {
 
         {/* ── CONTACT ── */}
         <section id="contact">
-          <span className="tw-label tw-reveal">04 — Contact</span>
+          <span className="tw-label tw-reveal">05 — Contact</span>
           <h2 className="tw-section-title tw-reveal">Let&apos;s connect</h2>
           <p className="tw-section-sub tw-reveal">
             Open to collaborations, internships, and interesting engineering challenges.
@@ -835,6 +982,45 @@ const CSS = `
     margin-bottom: 0.35rem;
   }
   .tw-stat-label { font-size: 0.78rem; color: var(--tw-muted); font-weight: 500; }
+
+  /* ── EXPERTISE ── */
+  .tw-expertise-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+  .tw-expertise-card {
+    background: var(--tw-card);
+    border: 1px solid var(--tw-border);
+    border-radius: var(--tw-r);
+    padding: 2rem;
+    transition: all 0.3s ease;
+  }
+  .tw-expertise-card:hover {
+    border-color: var(--tw-border-b);
+    background: var(--tw-card-h);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(77,163,255,0.08);
+  }
+  .tw-expertise-icon {
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    padding: 1rem;
+    background: var(--tw-blue-dim);
+    border-radius: 12px;
+  }
+  .tw-expertise-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: var(--tw-text);
+  }
+  .tw-expertise-desc {
+    font-size: 0.9rem;
+    color: var(--tw-muted);
+    line-height: 1.7;
+  }
 
   /* ── SKILLS ── */
   .tw-skills-grid {
